@@ -16,6 +16,8 @@
 			
 			<div slot="visible">
 	    		<div class="map-info" v-if="selected.club">
+	    			<span class="w-close glyphicon glyphicon-remove" aria-hidden="true" @click="closeBox"></span>
+
 	    			<div class="info-box">
 	    				<h3>{{ selected.club.name }}</h3>
 	    				<p class="address">{{ selected.club.address }}</p>
@@ -31,16 +33,26 @@
     					</thead>
 
     					<tbody>
+    						<tr v-if="!selected.trainings">
+    							<td colspan="3" style="text-align: center">Loading ...</td>
+    						</tr>
+
     						<tr v-for="(training, index) in selected.trainings">
     							<td>{{ index + 1 }}</td>
     							<td>{{ training.name }}</td>
-    							<td>{{ training.price_min }} &euro; / {{ training.price_type }}</td>
+    							<td>
+    								<span v-if="training.price">
+    									{{ training.price }} &euro; / {{ training.price_type.charAt(0).toUpperCase() + training.price_type.substr(1) }}
+    								</span>
+
+    								<span v-else>Ask a price</span>
+    							</td>
     						</tr>
     					</tbody>
     				</table>
 					
 					<div class="info-btn">
-    					<a href="#" class="btn btn-default btn-visit">Külasta veebilehe</a>
+    					<a href="#" class="btn btn-default btn-visit">Visit homepage</a>
     				</div>
 		    	</div>
 	    	</div>
@@ -101,6 +113,13 @@
 
         			console.log(this.selected.trainings);
         		});
+        	},
+
+        	closeBox() {
+        		this.selected = {
+        			club: null,
+        			trainings: []
+        		};
         	}
         },
 

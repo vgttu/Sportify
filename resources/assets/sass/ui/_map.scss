@@ -12,7 +12,7 @@
 
 	.map-info {
 		position: absolute;
-		width: 350px;
+		width: 380px;
 		height: auto;
 		max-height: 350px;
 		left: 50px;
@@ -22,6 +22,20 @@
 		box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.05);
 		overflow: hidden;
 		overflow-y: auto;
+
+		.w-close {
+			position: absolute;
+			right: 15px;
+			top: 15px;
+			color: #636b6f;
+			font-size: 12px;
+			cursor: pointer;
+
+			&:hover,
+			&:focus {
+				color: #43494c;
+			}
+		}
 
 		.info-box {
 			padding: 40px 30px 10px;
@@ -61,6 +75,22 @@
 					color: #fff;
 				}
 			}
+		}
+
+		@media screen and (min-height: 650px) {
+			max-height: 500px;
+		}
+
+		@media screen and (min-height: 700px) {
+			max-height: 550px;
+		}
+
+		@media screen and (min-height: 750px) {
+			max-height: 600px;
+		}
+
+		@media screen and (min-height: 800px) {
+			max-height: 650px;
 		}
 	}
 }
