@@ -20,8 +20,11 @@
                         <input type="text" class="form-control" placeholder="Search" v-model="search">
                     </div>
 
-                    <div class="search-results">
+                    <div class="search-results" v-if="search.length >= 2">
                         <ul>
+                            <li v-if="!loading && results.length == 0">No results</li>
+                            <li v-if="loading">Loading ...</li>
+
                             <li v-for="training in results">
                                 <h4>
                                     {{ training.name }}
@@ -33,6 +36,11 @@
                                 <span class="club">{{ training.club.name }}</span>
                             </li>
                         </ul>
+
+                        <div class="algolia">
+                            Powered by
+                            <img src="/img/Algolia_logo_bg-white.svg" alt="Algolia">
+                        </div>
                     </div>
                 </form>
 
@@ -60,7 +68,8 @@
         data() {
             return {
                 search: '',
-                results: []
+                results: [],
+                loading: false,
             }
         },
 
@@ -74,10 +83,15 @@
             searchClub: _.debounce(
                 function () {
                     if (this.search.length < 2) {
+                        this.results = [];
+
                         return;
                     }
 
+                    this.loading = true;
+
                     axios.get('/api/trainings/search?search=' + this.search).then(response => {
+                        this.loading = false;
                         this.results = response.data;
                     });
 

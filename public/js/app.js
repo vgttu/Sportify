@@ -66012,12 +66012,21 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = {
     data: function data() {
         return {
             search: '',
-            results: []
+            results: [],
+            loading: false
         };
     },
 
@@ -66033,10 +66042,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var _this = this;
 
             if (this.search.length < 2) {
+                this.results = [];
+
                 return;
             }
 
+            this.loading = true;
+
             axios.get('/api/trainings/search?search=' + this.search).then(function (response) {
+                _this.loading = false;
                 _this.results = response.data;
             });
 
@@ -66118,9 +66132,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.search = $event.target.value
       }
     }
-  })]), _vm._v(" "), _c('div', {
+  })]), _vm._v(" "), (_vm.search.length >= 2) ? _c('div', {
     staticClass: "search-results"
-  }, [_c('ul', _vm._l((_vm.results), function(training) {
+  }, [_c('ul', [(!_vm.loading && _vm.results.length == 0) ? _c('li', [_vm._v("No results")]) : _vm._e(), _vm._v(" "), (_vm.loading) ? _c('li', [_vm._v("Loading ...")]) : _vm._e(), _vm._v(" "), _vm._l((_vm.results), function(training) {
     return _c('li', [_c('h4', [_vm._v("\n                                " + _vm._s(training.name) + "\n\n                                "), (training.price) ? _c('span', {
       staticClass: "price"
     }, [_vm._v(_vm._s(training.price) + " € / " + _vm._s(training.price_type.charAt(0).toUpperCase() + training.price_type.substr(1)))]) : _c('span', {
@@ -66128,13 +66142,13 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }, [_vm._v("Ask a price")])]), _vm._v(" "), _c('span', {
       staticClass: "club"
     }, [_vm._v(_vm._s(training.club.name))])])
-  }))])]), _vm._v(" "), _c('ul', {
+  })], 2), _vm._v(" "), _vm._m(1)]) : _vm._e()]), _vm._v(" "), _c('ul', {
     staticClass: "nav navbar-nav navbar-right"
   }, [_c('li', [_c('a', {
     attrs: {
       "href": "#"
     }
-  }, [_vm._v(_vm._s(_vm.search))])]), _vm._v(" "), _vm._m(1)])])])])
+  }, [_vm._v(_vm._s(_vm.search))])]), _vm._v(" "), _vm._m(2)])])])])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "navbar-header"
@@ -66165,6 +66179,15 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "src": "/img/logo.png"
     }
   })])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "algolia"
+  }, [_vm._v("\n                        Powered by\n                        "), _c('img', {
+    attrs: {
+      "src": "/img/Algolia_logo_bg-white.svg",
+      "alt": "Algolia"
+    }
+  })])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('li', {
     staticClass: "dropdown"

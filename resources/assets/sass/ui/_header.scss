@@ -55,20 +55,21 @@
 			width: auto;
 			min-width: 400px;
 			height: auto;
-			max-height: 57px * 5;
 			z-index: 100;
 			background-color: #fff;
 			margin-left: -16px;
-			overflow: hidden;
-			overflow-y: auto;
+			border-radius: 0 0 3px 3px;
 
 			& > ul {
 				list-style: none;
 				margin: 0;
 				padding: 0;
+				max-height: 67px * 5;
+				overflow: hidden;
+				overflow-y: auto;
 
 				& > li {
-					padding: 7px 15px;
+					padding: 12px 15px;
 					border-left: 1px solid #e6ede4;
 					border-top: 1px solid #e6ede4;
 					cursor: pointer;
@@ -85,10 +86,30 @@
 					}
 
 					&:hover {
-						border-color: #0366d6;
 						background-color: #0366d6;
+						border-color: #0366d6;
 						color: #fff;
 					}
+				}
+			}
+
+			& > .algolia {
+				text-align: right;
+				line-height: 20px;
+				padding: 12px 15px;
+				border-left: 1px solid #e6ede4;
+				border-top: 1px solid #e6ede4;
+				border-radius: 0 0 3px 3px;
+
+				&:hover {
+					background-color: #fff;
+					border-color: #e6ede4;
+					color: #636b6f;
+				}
+
+				img {
+					height: 20px;
+					margin-left: 5px;
 				}
 			}
 		}
