@@ -8,18 +8,37 @@ use Illuminate\Http\Request;
 
 class ApiController extends Controller
 {
+    /**
+     * Get list of the clubs.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function getClubs()
     {
-    	$clubs = Club::all();
-
-    	return $clubs;
+    	return Club::all();
     }
 
+    /**
+     * Get trainings list of the club.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
     public function getClubTrainings($id)
     {
     	$club = Club::findOrFail($id);
-    	$trainings = $club->trainings;
 
-    	return $trainings;
+    	return $club->trainings;
+    }
+
+    /**
+     * Search a club
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function searchClub(Request $request)
+    {
+        return Club::search($request->search)->get();
     }
 }

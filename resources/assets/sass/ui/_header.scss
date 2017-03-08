@@ -5,24 +5,48 @@
 	margin-bottom: 0;
 	z-index: 100;
 	border: 0;
-	background-color: #24292e;
+	background-color: #fff;
 }
 
 .navbar-default {
 	.navbar-brand {
-		color: rgba(255, 255, 255, 0.75);
+		color: #0366d6;
 
 		&:hover,
 		&:focus {
-			color: #fff;
+			color: #0366d6;
+		}
+
+		& > img {
+			max-height: 22px;
 		}
 	}
 
 	.navbar-nav > li > a {
-		color: rgba(255, 255, 255, 0.75);
+		color: #0366d6;
 
 		&:hover {
-			color: #fff;
+			text-decoration: underline;
+		}
+	}
+
+	.navbar-form {
+		border-left: 1px solid #e6ede4;
+		margin: 0;
+		
+		.form-group {
+			padding: 7px 0;
+
+			.form-control {
+				border: none;
+				box-shadow: none;
+				padding-left: 0;
+				padding-right: 0;
+
+				&:focus {
+					box-shadow: none;
+				}
+			}
 		}
 	}
 }

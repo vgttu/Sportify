@@ -94,8 +94,6 @@
         	getClubs() {
         		axios.get('/api/clubs').then(response => {
         			this.clubs = response.data;
-
-        			console.log(this.clubs);
         		});
         	},
 
@@ -110,8 +108,6 @@
 
         		axios.get('/api/clubs/' + club.id + '/trainings').then(response => {
         			this.selected.trainings = response.data;
-
-        			console.log(this.selected.trainings);
         		});
         	},
 

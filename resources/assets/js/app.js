@@ -26,6 +26,7 @@ Vue.use(VueGoogleMaps, {
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
+Vue.component('app-header', require('./components/Header.vue'));
 Vue.component('map-view', require('./components/Map.vue'));
 
 const app = new Vue({

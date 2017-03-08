@@ -18,4 +18,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::get('/clubs', 'ApiController@getClubs');
+Route::get('/clubs/search', 'ApiController@searchClub');
 Route::get('/clubs/{id}/trainings', 'ApiController@getClubTrainings');
