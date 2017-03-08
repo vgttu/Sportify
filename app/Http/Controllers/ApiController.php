@@ -32,13 +32,14 @@ class ApiController extends Controller
     }
 
     /**
-     * Search a club
+     * Search a requested training.
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function searchClub(Request $request)
+    public function searchTraining(Request $request)
     {
-        return Club::search($request->search)->get();
+        $trainings = Training::search($request->search)->get();
+        
+        return $trainings->load('club');
     }
 }

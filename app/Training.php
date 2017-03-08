@@ -63,4 +63,18 @@ class Training extends Model
 
         return null;
     }
+
+    /**
+     * Get the indexable data array for the model.
+     *
+     * @return array
+     */
+    public function toSearchableArray()
+    {
+        $array = $this->toArray();
+
+        $array['club'] = $this->club;
+
+        return $array;
+    }
 }

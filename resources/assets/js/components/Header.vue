@@ -19,6 +19,21 @@
                     <div class="form-group">
                         <input type="text" class="form-control" placeholder="Search" v-model="search">
                     </div>
+
+                    <div class="search-results">
+                        <ul>
+                            <li v-for="training in results">
+                                <h4>
+                                    {{ training.name }}
+
+                                    <span class="price" v-if="training.price">{{ training.price }} &euro; / {{ training.price_type.charAt(0).toUpperCase() + training.price_type.substr(1) }}</span>
+                                    <span class="price" v-else>Ask a price</span>
+                                </h4>
+                                
+                                <span class="club">{{ training.club.name }}</span>
+                            </li>
+                        </ul>
+                    </div>
                 </form>
 
                 <ul class="nav navbar-nav navbar-right">
@@ -44,7 +59,8 @@
     export default {
         data() {
             return {
-                search: ''
+                search: '',
+                results: []
             }
         },
 
@@ -60,6 +76,10 @@
                     if (this.search.length < 2) {
                         return;
                     }
+
+                    axios.get('/api/trainings/search?search=' + this.search).then(response => {
+                        this.results = response.data;
+                    });
 
                     console.log('Searching');
                 },

@@ -65997,11 +65997,27 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = {
     data: function data() {
         return {
-            search: ''
+            search: '',
+            results: []
         };
     },
 
@@ -66014,9 +66030,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     methods: {
         searchClub: _.debounce(function () {
+            var _this = this;
+
             if (this.search.length < 2) {
                 return;
             }
+
+            axios.get('/api/trainings/search?search=' + this.search).then(function (response) {
+                _this.results = response.data;
+            });
 
             console.log('Searching');
         }, 500)
@@ -66096,7 +66118,17 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.search = $event.target.value
       }
     }
-  })])]), _vm._v(" "), _c('ul', {
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "search-results"
+  }, [_c('ul', _vm._l((_vm.results), function(training) {
+    return _c('li', [_c('h4', [_vm._v("\n                                " + _vm._s(training.name) + "\n\n                                "), (training.price) ? _c('span', {
+      staticClass: "price"
+    }, [_vm._v(_vm._s(training.price) + " € / " + _vm._s(training.price_type.charAt(0).toUpperCase() + training.price_type.substr(1)))]) : _c('span', {
+      staticClass: "price"
+    }, [_vm._v("Ask a price")])]), _vm._v(" "), _c('span', {
+      staticClass: "club"
+    }, [_vm._v(_vm._s(training.club.name))])])
+  }))])]), _vm._v(" "), _c('ul', {
     staticClass: "nav navbar-nav navbar-right"
   }, [_c('li', [_c('a', {
     attrs: {
