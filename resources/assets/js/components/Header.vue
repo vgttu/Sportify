@@ -15,17 +15,17 @@
             </div>
             
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <form class="navbar-form navbar-left">
+                <form class="navbar-form navbar-left" v-on-clickaway="searchAway">
                     <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Search" v-model="search">
+                        <input type="text" class="form-control" placeholder="Enter a name of training or club" v-model="keyword" @focus="searchIn">
                     </div>
 
-                    <div class="search-results" v-if="search.length >= 2">
+                    <div class="search-results" v-if="search.show">
                         <ul>
-                            <li v-if="!loading && results.length == 0">No results</li>
-                            <li v-if="loading">Loading ...</li>
+                            <li v-if="!search.loading && search.results.length == 0" class="disabled">We didn't find any result for "{{ search.query }}".</li>
+                            <li v-if="search.loading" class="disabled">Loading ...</li>
 
-                            <li v-for="training in results">
+                            <li v-for="training in search.results" @click="searchSelect(training)">
                                 <h4>
                                     {{ training.name }}
 
@@ -45,7 +45,7 @@
                 </form>
 
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="#">{{ search }}</a></li>
+                    <li><a href="#">Link</a></li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
                         
@@ -64,17 +64,23 @@
 </template>
 
 <script>
+    import { mixin as clickaway } from 'vue-clickaway';
+
     export default {
         data() {
             return {
-                search: '',
-                results: [],
-                loading: false,
+                keyword: '',
+                search: {
+                    query: '',
+                    results: [],
+                    loading: false,
+                    show: false
+                }
             }
         },
 
         watch: {
-            search(value) {
+            keyword(value) {
                 this.searchClub();
             }
         },
@@ -82,23 +88,44 @@
         methods: {
             searchClub: _.debounce(
                 function () {
-                    if (this.search.length < 2) {
-                        this.results = [];
+                    this.search.query = this.keyword;
+
+                    if (this.search.query.length < 2) {
+                        this.search.show = false;
+                        this.search.results = [];
 
                         return;
                     }
 
-                    this.loading = true;
+                    this.search.show = true;
+                    this.search.loading = true;
+                    this.search.results = [];
 
-                    axios.get('/api/trainings/search?search=' + this.search).then(response => {
-                        this.loading = false;
-                        this.results = response.data;
+                    axios.get('/api/trainings/search?search=' + this.search.query).then(response => {
+                        this.search.loading = false;
+                        this.search.results = response.data;
                     });
-
-                    console.log('Searching');
                 },
                 500
-            )
-        }
+            ),
+
+            searchSelect(training) {
+                this.search.show = false;
+
+                this.$events.emit('clubSelected', training.club);
+            },
+
+            searchAway() {
+                this.search.show = false;
+            },
+
+            searchIn() {
+                if (this.search.query.length > 0) {
+                    this.search.show = true;
+                }
+            }
+        },
+
+        mixins: [clickaway]
     }
 </script>

@@ -88,6 +88,14 @@
 
         mounted() {
             this.getClubs();
+
+            this.$events.on('clubSelected', club => {
+                this.selectClub(club);
+            });
+        },
+
+        beforeDestroy() {
+            this.$events.off('clubSelected');
         },
 
         methods: {

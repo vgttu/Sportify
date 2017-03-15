@@ -13,12 +13,15 @@ require('./bootstrap');
  */
 
 import * as VueGoogleMaps from 'vue2-google-maps';
+import VueEvents from 'vue-events';
 
 Vue.use(VueGoogleMaps, {
     load: {
         key: 'AIzaSyA0LgipRdxsqMdlsRzKK1kWXesn37rMk8c'
     }
 });
+
+Vue.use(VueEvents);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
