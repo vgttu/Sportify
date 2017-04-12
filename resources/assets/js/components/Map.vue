@@ -7,12 +7,14 @@
 	    >
 	    	<google-cluster>
 	    		<google-marker
-					v-for="club in clubs"
+					v-for="club in clubs.show"
 					:position="{ lat: club.lat, lng: club.long }"
 					:clickable="true"
 					@click="selectClub(club)"
 		        ></google-marker>
 	    	</google-cluster>
+
+            <!-- <google-circle :center="map.center" :draggable="false"></google-circle> -->
 			
 			<div slot="visible">
 	    		<div class="map-info" v-if="selected.club">
@@ -61,12 +63,15 @@
 </template>
 
 <script>
-	import { Marker, Cluster } from 'vue2-google-maps';
+	import { Circle, Marker, Cluster } from 'vue2-google-maps';
 
     export default {
     	data() {
     		return {
-    			clubs: [],
+    			clubs: {
+                    all: [],
+                    show: []
+                },
     			selected: {
     				club: null,
     				trainings: [] 
@@ -101,12 +106,17 @@
         methods: {
         	getClubs() {
         		axios.get('/api/clubs').then(response => {
-        			this.clubs = response.data;
+        			this.clubs.all = this.clubs.show = response.data;
         		});
         	},
 
         	selectClub(club) {
-        		this.selected.club = club;
+                var vm = this;
+
+        		vm.selected.club = club;
+                vm.clubs.show = _.reject(vm.clubs.all, function(club) {
+                    return club.id !== vm.selected.club.id;
+                });
 
         		this.map.zoom = 13;
         		this.map.center = {
@@ -120,6 +130,8 @@
         	},
 
         	closeBox() {
+                this.clubs.show = this.clubs.all;
+                
         		this.selected = {
         			club: null,
         			trainings: []
@@ -128,6 +140,7 @@
         },
 
         components: {
+            'google-circle': Circle,
         	'google-marker': Marker,
         	'google-cluster': Cluster
         }
